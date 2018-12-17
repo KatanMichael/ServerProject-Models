@@ -52,6 +52,32 @@ public class Main
 
             }
         });
+
+        System.out.println();
+
+        gymDAO.getUsersByName("Daniel", new RequestListener()
+        {
+            @Override
+            public void onComplete(Object o)
+            {
+                List users = (List) o;
+
+                for (int i = 0; i < users.size() ; i++)
+                {
+                    System.out.println(users.get(i));
+
+                }
+            }
+
+            @Override
+            public void onError(String errorMsg)
+            {
+                System.out.println(errorMsg);
+            }
+        });
+
+
+       //gymDAO.deleteUser("Michael");
     }
 
 
