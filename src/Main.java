@@ -11,7 +11,6 @@ public class Main
         HibernateGymDAO gymDAO = HibernateGymDAO.getInstance();
 
 
-        gymDAO.addNewUser(new User("1234","daniel",3.2,2.1));
 
         gymDAO.getAllUsers(new RequestListener() {
             @Override
@@ -35,8 +34,27 @@ public class Main
             }
         });
 
+        System.out.println();
+
+        gymDAO.getUserbyId(4, new RequestListener()
+        {
+            @Override
+            public void onComplete(Object o)
+            {
+                User tempUser = (User) o;
+
+                System.out.println(tempUser);
+            }
+
+            @Override
+            public void onError(String errorMsg)
+            {
+
+            }
+        });
     }
-//daniel
 
 
 }
+
+//TODO Add Exception Class

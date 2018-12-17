@@ -1,9 +1,5 @@
 package com.models;
 
-import com.models.Activity;
-import com.models.RequestListener;
-import com.models.User;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -56,7 +52,7 @@ public class HibernateGymDAO implements models.IGymDAO
     }
 
     @Override
-    public void getUserbyId(int id, RequestListener listener)
+    public void getUserbyId(int queryId, RequestListener listener)
     {
         sessionFactory =  new AnnotationConfiguration().
                 configure().buildSessionFactory();
@@ -65,13 +61,14 @@ public class HibernateGymDAO implements models.IGymDAO
 
         session.beginTransaction();
 
-        final List list = session.createQuery("from User u where u.id = id").list();
+        final List list = session.createQuery("from User u WHERE u.id = '"+queryId+"'").list();
 
         if(list.size() == 0)
         {
             listener.onError("No User Found");
         }else
         {
+            System.out.println(list.size());
             listener.onComplete(list.get(0));
         }
 
@@ -80,6 +77,11 @@ public class HibernateGymDAO implements models.IGymDAO
     @Override
     public void getUsersByName(String name, RequestListener listener)
     {
+        sessionFactory = new AnnotationConfiguration().
+                configure().buildSessionFactory();
+
+        Session session = sessionFactory.openSession();
+
 
     }
 
@@ -112,6 +114,35 @@ public class HibernateGymDAO implements models.IGymDAO
         session.close();
 
         sessionFactory.close();
+
+
+    }
+
+    @Override
+    public void deleteUser(String userName)
+    {
+        sessionFactory = new AnnotationConfiguration().
+                configure().buildSessionFactory();
+
+        Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        getUsersByName(userName, new RequestListener()
+        {
+            @Override
+            public void onComplete(Object o)
+            {
+
+
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+
+            }
+        });
+
 
 
     }
