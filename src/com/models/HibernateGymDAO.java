@@ -1,5 +1,6 @@
 package com.models;
 
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -82,6 +83,16 @@ public class HibernateGymDAO implements models.IGymDAO
 
         Session session = sessionFactory.openSession();
 
+        final List list = session.createQuery("from User u WHERE u.userName = '"+name+"'").list();
+
+        if(list.size() == 0)
+        {
+            listener.onError("No User Found");
+
+        }else
+        {
+            listener.onComplete(list);
+        }
 
     }
 
@@ -133,13 +144,19 @@ public class HibernateGymDAO implements models.IGymDAO
             @Override
             public void onComplete(Object o)
             {
+                List userList = (List) o;
 
-
+                for (int i = 0; i <userList.size() ; i++)
+                {
+                    session.delete(userList.get(i));
+                    session.getTransaction().commit();
+                }
             }
 
             @Override
-            public void onError(String errorMsg) {
-
+            public void onError(String errorMsg)
+            {
+                System.out.println(errorMsg);
             }
         });
 
