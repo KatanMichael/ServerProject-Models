@@ -11,6 +11,7 @@ public class Main
         HibernateGymDAO gymDAO = HibernateGymDAO.getInstance();
 
 
+        gymDAO.addNewUser(new User("1234","daniel",3.2,2.1));
 
         gymDAO.getAllUsers(new RequestListener() {
             @Override
