@@ -34,8 +34,27 @@ public class Main
             }
         });
 
+        System.out.println();
+
+        gymDAO.getUserbyId(4, new RequestListener()
+        {
+            @Override
+            public void onComplete(Object o)
+            {
+                User tempUser = (User) o;
+
+                System.out.println(tempUser);
+            }
+
+            @Override
+            public void onError(String errorMsg)
+            {
+
+            }
+        });
     }
 
 
-
 }
+
+//TODO Add Exception Class
