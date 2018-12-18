@@ -8,7 +8,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 
 import java.util.List;
 
-public class HibernateGymDAO implements models.IGymDAO
+public class HibernateGymDAO implements com.models.IGymDAO
 {
     private static HibernateGymDAO ourInstance = new HibernateGymDAO();
     private SessionFactory sessionFactory;
@@ -97,14 +97,43 @@ public class HibernateGymDAO implements models.IGymDAO
     }
 
     @Override
-    public void getUserByWeight(int weight, String keyWord, RequestListener listener)
+    public void getUserByWeight(double weight, RequestListener listener)
     {
+        sessionFactory = new AnnotationConfiguration().
+                configure().buildSessionFactory();
 
+        Session session = sessionFactory.openSession();
+
+        final List list = session.createQuery("from User u WHERE u.userName = '" + weight + "' ").list();
+
+        if(list.size() == 0)
+        {
+            listener.onError("No User Found");
+
+        }else
+        {
+            listener.onComplete(list);
+        }
     }
 
     @Override
-    public void getUserByHeight(int height, String keyWord, RequestListener listener)
+    public void getUserByHeight(double height, RequestListener listener)
     {
+        sessionFactory = new AnnotationConfiguration().
+                configure().buildSessionFactory();
+
+        Session session = sessionFactory.openSession();
+
+        final List list = session.createQuery("from User u WHERE u.userName = '" + height + "' ").list();
+
+        if(list.size() == 0)
+        {
+            listener.onError("No User Found");
+
+        }else
+        {
+            listener.onComplete(list);
+        }
 
     }
 
@@ -181,7 +210,7 @@ public class HibernateGymDAO implements models.IGymDAO
     {
 
     }
-
+    @Override
     public void addNewActivity(Activity activity)
     {
         sessionFactory = new AnnotationConfiguration().

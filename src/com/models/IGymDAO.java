@@ -8,10 +8,10 @@ public interface IGymDAO
 {
     //Users
     public void getAllUsers(RequestListener listener);
-    public void getUserbyId(int id, RequestListener listener);
+    public void getUserbyId(int queryId, RequestListener listener);
     public void getUsersByName(String name, RequestListener listener);
-    public void getUserByWeight(int weight, String keyWord, RequestListener listener);
-    public void getUserByHeight(int height, String keyWord, RequestListener listener);
+    public void getUserByWeight(double weight, RequestListener listener);
+    public void getUserByHeight(double height, RequestListener listener);
 
     public void addNewUser(User user);
     public void deleteUser(String userName);

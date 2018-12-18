@@ -49,7 +49,7 @@ public class Main
             @Override
             public void onError(String errorMsg)
             {
-
+                System.out.println(errorMsg);
             }
         });
 
@@ -76,6 +76,48 @@ public class Main
             }
         });
 
+
+        gymDAO.getUserByWeight(3.2, new RequestListener()
+        {
+            @Override
+            public void onComplete(Object o)
+            {
+                List users = (List) o;
+
+                for (int i = 0; i < users.size() ; i++)
+                {
+                    System.out.println(users.get(i));
+
+                }
+            }
+
+            @Override
+            public void onError(String errorMsg)
+            {
+                System.out.println(errorMsg);
+            }
+        });
+
+
+        gymDAO.getUserByHeight(2.1, new RequestListener()
+        {
+            @Override
+            public void onComplete(Object o)
+            {
+                List users = (List) o;
+
+                for (int i = 0; i < users.size() ; i++)
+                {
+                    System.out.println(users.get(i));
+
+                }
+            }
+            @Override
+            public void onError(String errorMsg)
+            {
+                System.out.println(errorMsg);
+            }
+        });
 
        //gymDAO.deleteUser("Michael");
     }
