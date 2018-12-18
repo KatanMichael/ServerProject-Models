@@ -104,7 +104,7 @@ public class HibernateGymDAO implements com.models.IGymDAO
 
         Session session = sessionFactory.openSession();
 
-        final List list = session.createQuery("from User u WHERE u.userName = '" + weight + "' ").list();
+        final List list = session.createQuery("from User u WHERE u.weight = '" + weight + "' ").list();
 
         if(list.size() == 0)
         {
@@ -124,7 +124,7 @@ public class HibernateGymDAO implements com.models.IGymDAO
 
         Session session = sessionFactory.openSession();
 
-        final List list = session.createQuery("from User u WHERE u.userName = '" + height + "' ").list();
+        final List list = session.createQuery("from User u WHERE u.height = '" + height + "' ").list();
 
         if(list.size() == 0)
         {
