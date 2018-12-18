@@ -119,7 +119,6 @@ public class Main
             }
         });
 
-       //gymDAO.deleteUser("Michael");
     }
 
 
