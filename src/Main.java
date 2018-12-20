@@ -1,8 +1,28 @@
+import com.models.HibernateGymDAO;
+import com.models.RequestListener;
+
 public class Main
 {
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
 
-        System.out.println("Test");
+        HibernateGymDAO dao = HibernateGymDAO.getInstance();
+
+        dao.getUserbyId(123, new RequestListener()
+        {
+            @Override
+            public void onComplete(Object o)
+            {
+
+            }
+
+            @Override
+            public void onError(String errorMsg)
+            {
+
+            }
+        });
+
     }
 
 }
