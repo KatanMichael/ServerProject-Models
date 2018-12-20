@@ -10,19 +10,15 @@ public class Main
 
         HibernateGymDAO gymDAO = HibernateGymDAO.getInstance();
 
-
-
         gymDAO.getAllUsers(new RequestListener() {
             @Override
             public void onComplete(Object o)
             {
-                List users = (List) o;
+                List tempList = (List) o;
 
-                System.out.println("Size: "+users.size());
-
-                for (int i = 0; i <users.size() ; i++)
+                for (int i = 0; i < tempList.size(); i++)
                 {
-                    System.out.println(users.get(i));
+                    System.out.println(tempList.get(i));
                 }
 
             }
@@ -30,92 +26,7 @@ public class Main
             @Override
             public void onError(String errorMsg)
             {
-                System.out.println(errorMsg);
-            }
-        });
 
-        System.out.println();
-
-        gymDAO.getUserbyId(4, new RequestListener()
-        {
-            @Override
-            public void onComplete(Object o)
-            {
-                User tempUser = (User) o;
-
-                System.out.println(tempUser);
-            }
-
-            @Override
-            public void onError(String errorMsg)
-            {
-                System.out.println(errorMsg);
-            }
-        });
-
-        System.out.println();
-
-        gymDAO.getUsersByName("Daniel", new RequestListener()
-        {
-            @Override
-            public void onComplete(Object o)
-            {
-                List users = (List) o;
-
-                for (int i = 0; i < users.size() ; i++)
-                {
-                    System.out.println(users.get(i));
-
-                }
-            }
-
-            @Override
-            public void onError(String errorMsg)
-            {
-                System.out.println(errorMsg);
-            }
-        });
-
-
-        gymDAO.getUserByWeight(3.2, new RequestListener()
-        {
-            @Override
-            public void onComplete(Object o)
-            {
-                List users = (List) o;
-
-                for (int i = 0; i < users.size() ; i++)
-                {
-                    System.out.println(users.get(i));
-
-                }
-            }
-
-            @Override
-            public void onError(String errorMsg)
-            {
-                System.out.println(errorMsg);
-            }
-        });
-
-
-        gymDAO.getUserByHeight(2.1, new RequestListener()
-        {
-            @Override
-            public void onComplete(Object o)
-            {
-                List users = (List) o;
-
-                for (int i = 0; i < users.size() ; i++)
-                {
-                    System.out.println(users.get(i));
-
-                }
-            }
-            @Override
-            public void onError(String errorMsg)
-            {
-                System.out.println(errorMsg);
             }
         });
 

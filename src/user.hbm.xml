@@ -21,6 +21,7 @@
 
 		<property name="height">
 			<column name="HEIGHT"/>
+
 		</property>
 
 	</class>

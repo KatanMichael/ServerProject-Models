@@ -145,7 +145,8 @@ public class HibernateGymDAO implements com.models.IGymDAO
 
         Session session = sessionFactory.openSession();
 
-        session.beginTransaction();
+        try {
+            session.beginTransaction();
 
         session.save(user);
 
@@ -154,7 +155,11 @@ public class HibernateGymDAO implements com.models.IGymDAO
         session.close();
 
         sessionFactory.close();
-
+        }catch (HibernateException e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println(e.getCause());
+        }
 
     }
 
