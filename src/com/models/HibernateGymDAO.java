@@ -21,15 +21,17 @@ public class HibernateGymDAO implements com.models.IGymDAO
         return ourInstance;
     }
 
-    private HibernateGymDAO() {
+    private HibernateGymDAO()
+    {
+        sessionFactory = new AnnotationConfiguration().
+                configure().buildSessionFactory();
+
     }
 
 
     @Override
     public void getAllUsers(RequestListener listener)
     {
-        sessionFactory = new AnnotationConfiguration().
-                configure().buildSessionFactory();
 
         Session session = sessionFactory.openSession();
 
@@ -48,12 +50,11 @@ public class HibernateGymDAO implements com.models.IGymDAO
 
 
         session.close();
-        sessionFactory.close();
 
     }
 
     @Override
-    public void getUserbyId(int queryId, RequestListener listener)
+    public void getUserById(int queryId, RequestListener listener)
     {
         sessionFactory =  new AnnotationConfiguration().
                 configure().buildSessionFactory();
@@ -73,14 +74,14 @@ public class HibernateGymDAO implements com.models.IGymDAO
             listener.onComplete(list.get(0));
         }
 
+        session.close();
+
+
     }
 
     @Override
     public void getUsersByName(String name, RequestListener listener)
     {
-        sessionFactory = new AnnotationConfiguration().
-                configure().buildSessionFactory();
-
         Session session = sessionFactory.openSession();
 
         final List list = session.createQuery("from User u WHERE u.userName = '"+name+"'").list();
@@ -94,13 +95,14 @@ public class HibernateGymDAO implements com.models.IGymDAO
             listener.onComplete(list);
         }
 
+        session.close();
+
+
     }
 
     @Override
     public void getUserByWeight(double weight, RequestListener listener)
     {
-        sessionFactory = new AnnotationConfiguration().
-                configure().buildSessionFactory();
 
         Session session = sessionFactory.openSession();
 
@@ -114,13 +116,14 @@ public class HibernateGymDAO implements com.models.IGymDAO
         {
             listener.onComplete(list);
         }
+
+        session.close();
+
     }
 
     @Override
     public void getUserByHeight(double height, RequestListener listener)
     {
-        sessionFactory = new AnnotationConfiguration().
-                configure().buildSessionFactory();
 
         Session session = sessionFactory.openSession();
 
@@ -135,13 +138,14 @@ public class HibernateGymDAO implements com.models.IGymDAO
             listener.onComplete(list);
         }
 
+
+        session.close();
+
     }
 
     @Override
     public void addNewUser(User user)
     {
-        sessionFactory = new AnnotationConfiguration().
-                configure().buildSessionFactory();
 
         Session session = sessionFactory.openSession();
 
@@ -152,7 +156,7 @@ public class HibernateGymDAO implements com.models.IGymDAO
 
         session.getTransaction().commit();
 
-        session.close();
+
 
         sessionFactory.close();
         }catch (HibernateException e)
@@ -161,13 +165,12 @@ public class HibernateGymDAO implements com.models.IGymDAO
             System.out.println(e.getCause());
         }
 
+        session.close();
     }
 
     @Override
     public void deleteUser(String userName)
     {
-        sessionFactory = new AnnotationConfiguration().
-                configure().buildSessionFactory();
 
         Session session = sessionFactory.openSession();
 
@@ -194,6 +197,7 @@ public class HibernateGymDAO implements com.models.IGymDAO
             }
         });
 
+        session.close();
 
 
     }
@@ -202,24 +206,66 @@ public class HibernateGymDAO implements com.models.IGymDAO
     public void getActivityById(int id, RequestListener listener)
     {
 
+        Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        List list = session.createQuery("from Activity a where a.id ='" + id + "'").list();
+
+        if(list.size() == 0)
+        {
+            listener.onError("No Activity Found");
+        }else
+        {
+            listener.onComplete(list.get(0));
+        }
+
+        session.close();
     }
 
     @Override
     public void getActivitiesByName(String name, RequestListener listener)
     {
+        sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+        Session session = sessionFactory.openSession();
 
+        session.beginTransaction();
+
+        List list = session.createQuery("from Activity a where a.name ='" + name + "'").list();
+
+        if(list.size() == 0)
+        {
+            listener.onError("NO Activities Found");
+        }else
+        {
+            listener.onComplete(list);
+        }
+        session.close();
     }
 
     @Override
     public void getActivitiesBySets(boolean hasSets, RequestListener listener)
     {
+        Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+
+        List list = session.createQuery("from Activity a where a.hasSets ='" + hasSets + "'").list();
+
+        if(list.size() == 0)
+        {
+            listener.onError("NO Activities Found");
+        }else
+        {
+            listener.onComplete(list);
+        }
+        session.close();
 
     }
     @Override
     public void addNewActivity(Activity activity)
     {
-        sessionFactory = new AnnotationConfiguration().
-                configure().buildSessionFactory();
 
         Session session = sessionFactory.openSession();
 
@@ -231,8 +277,39 @@ public class HibernateGymDAO implements com.models.IGymDAO
 
         session.close();
 
-        sessionFactory.close();
     }
-}
 
-//TODO Fill blanks Methods
+    public void deleteActivity(String activityName)
+    {
+        Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        getActivitiesByName(activityName, new RequestListener()
+        {
+            @Override
+            public void onComplete(Object o)
+            {
+                List activities = (List) o;
+
+                for (int i = 0; i <activities.size() ; i++)
+                {
+                    session.delete(activities.get(i));
+
+                }
+
+            }
+
+            @Override
+            public void onError(String errorMsg)
+            {
+                System.out.println(errorMsg);
+            }
+        });
+
+        session.getTransaction().commit();
+        session.close();
+
+    }
+
+}

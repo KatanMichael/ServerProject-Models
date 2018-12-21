@@ -4,28 +4,36 @@ import com.models.Activity;
 import com.models.RequestListener;
 import com.models.User;
 
-public interface IGymDAO
-{
+public interface IGymDAO {
     //Users
-    public void getAllUsers(RequestListener listener);
-    public void getUserbyId(int queryId, RequestListener listener);
-    public void getUsersByName(String name, RequestListener listener);
-    public void getUserByWeight(double weight, RequestListener listener);
-    public void getUserByHeight(double height, RequestListener listener);
+    void getAllUsers(RequestListener listener);
 
-    public void addNewUser(User user);
-    public void deleteUser(String userName);
+    void getUserById(int queryId, RequestListener listener);
+
+    void getUsersByName(String name, RequestListener listener);
+
+    void getUserByWeight(double weight, RequestListener listener);
+
+    void getUserByHeight(double height, RequestListener listener);
+
+    void addNewUser(User user);
+
+    void deleteUser(String userName);
 
     /*
     Keywords are "equal", "above", "below"
      */
 
     //Activities
-    public void getActivityById(int id, RequestListener listener);
-    public void getActivitiesByName(String name, RequestListener listener);
-    public void getActivitiesBySets(boolean hasSets, RequestListener listener);
+    void getActivityById(int id, RequestListener listener);
 
-    public void addNewActivity(Activity activity);
+    void getActivitiesByName(String name, RequestListener listener);
+
+    void getActivitiesBySets(boolean hasSets, RequestListener listener);
+
+    void addNewActivity(Activity activity);
+
+    void deleteActivity(String activityName);
 
 }
 

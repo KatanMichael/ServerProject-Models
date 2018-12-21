@@ -13,9 +13,9 @@ public class Activity
 
     public Activity(){}
 
-    public Activity(int id, String name, boolean hasSets, int numberOfSets)
+    public Activity(String name, boolean hasSets, int numberOfSets)
     {
-        this.id = id;
+
         this.name = name;
         this.hasSets = hasSets;
         this.numberOfSets = numberOfSets;
@@ -51,5 +51,15 @@ public class Activity
 
     public void setNumberOfSets(int numberOfSets) {
         this.numberOfSets = numberOfSets;
+    }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", hasSets=" + hasSets +
+                ", numberOfSets=" + numberOfSets +
+                '}';
     }
 }
